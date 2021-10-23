@@ -6,6 +6,7 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 * Vincent P. Rodriguez
 * Kevin Nguyen
 * Ares Hamilton
+* Vincent Nguyen
 
 ## Revision History:
 ### Andres:
