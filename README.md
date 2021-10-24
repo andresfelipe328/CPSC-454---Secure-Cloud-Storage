@@ -15,3 +15,7 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 ### Andres:
 * Date: 10/07/21
 * Description: Created an AWS S3 bucket and associated it with a customized domain through Route 53. In addition, I included https protocol with Certificate Manager and added Cloudfront to assist the website with lower latency and faster transfer speeds.
+
+### Vincent R:
+* Date: 10/23/21
+* Description: Created the sign-in/sign-up button and sign-up form. The formatting needs to be fixed, but the button is operational and the form works. Will work on the sign-in form next.

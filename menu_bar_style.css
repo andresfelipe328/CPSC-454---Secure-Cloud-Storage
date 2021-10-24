@@ -24,18 +24,18 @@ span
 {
     color: #eac822;
 }
-ul 
+ul
 {
     width: auto;
     float: left;
     margin-top: 8px;
 }
-li 
+li
 {
     display: inline-block;
     padding: 15px 10px;
 }
-a 
+a
 {
     text-align: center;
     color: #ffffff;
@@ -47,6 +47,21 @@ a:hover
 {
     color: #F0c330;
     transition: 0.5s;
+}
+
+button {
+  background-color: #282828;
+  border: none;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+}
+
+button:hover {
+  color: #F0C330;
+  transition: 0.5s;
 }
 
 @media only screen and (min-width: 768px)
@@ -76,5 +91,14 @@ a:hover
         text-decoration: none;
         font-family: 'Open Sans', sans-serif;
         font-size: 20px;
+    }
+    button {
+      background-color: #282828;
+      border: none;
+      text-align: center;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
     }
 }
