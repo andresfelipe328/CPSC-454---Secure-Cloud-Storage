@@ -12,3 +12,7 @@
 6. Input upload, download, or delete
 7. Results will be in AWS. 
 8. You'll need AWS key ID and secret key, so contact me if you want to run the code.
+
+1. Make sure to have all the files in this branch, a directory call download, and a file name test.txt
+  1. If you want, you can choose the file, but change in code as well
+2. Install aws-sdk -> npm install aws-sdk
