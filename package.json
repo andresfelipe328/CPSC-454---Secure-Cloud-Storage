@@ -1,0 +1,27 @@
+{
+  "name": "aws",
+  "version": "1.0.0",
+  "description": "Implementation of AES-256 for enc/decryption of files in a file transfer system on the cloud",
+  "main": "upload.js",
+  "dependencies": {
+    "aws-sdk": "^2.1003.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "s3-folder-upload": "^2.3.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresfelipe328/CPSC-452---Secure-Cloud-Storage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andresfelipe328/CPSC-452---Secure-Cloud-Storage/issues"
+  },
+  "homepage": "https://github.com/andresfelipe328/CPSC-452---Secure-Cloud-Storage#readme"
+}
