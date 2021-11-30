@@ -1,7 +1,7 @@
 # Execution
 
 1. Download aws-sdk by typing -> npm install aws-sdk
-2. Export the AWS KEYID and AWS SECRET KEY by typing:
+* Export the AWS KEYID and AWS SECRET KEY by typing:
   1. export AWS_ACCESS_KEY=
   2. export AWS_SECRET_ACCESS_KEY=
 
