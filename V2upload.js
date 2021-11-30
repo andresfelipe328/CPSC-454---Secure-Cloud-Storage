@@ -54,12 +54,12 @@ const uploadFile = (fileName) => {
     });
   }; 
 
-readline.question(`What do you want to do?`, name => {
+readline.question(`What do you want to do?`, resp => {
     readline.close()
-    if (name == "upload"){
+    if (resp == "upload"){
         uploadFile("test.txt")
     }
-    else if (name == "download"){
+    else if (resp == "download"){
         downloadFile("test.txt")
     }
     else {
