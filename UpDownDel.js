@@ -49,7 +49,7 @@ const uploadFile = (fileName, parentFolder, password) => {
     s3.upload(params, function(s3Err, data) {
         // handle error
         if (s3Err) 
-            throw s3Err;
+            console.log(s3Err.message);
         else
             console.log("success");
     });
@@ -66,8 +66,12 @@ received from s3 bucket and stored in a new file under the download folder
     Output: N/A
 */  
 const downloadFile = (fileName, parentFolder, password) => {
-    // Variable
-    const filePath = parentFolder.concat(filename);
+    // Variables
+    const filePath = parentFolder.concat(fileName);
+    const newFile = "new_";
+    const folder = "download/";
+    const downloadFile = newFile.concat(fileName);
+    const downloadPath = folder.concat(downloadFile);
 
     // provide the unique password key and a 16-byte string used as salt
     key = AES.getKeyFromPassword(password, "reallylongsalter");
@@ -79,13 +83,13 @@ const downloadFile = (fileName, parentFolder, password) => {
     // run getObject to fetch the file's content from the s3 bucket
     s3.getObject(params, (s3Err, data) => {
         // handle error
-        if (err) 
-            throw s3Err;
+        if (s3Err)
+            console.log(s3Err.message);
         else
             // run encryption algorithm using the encryption key and only the data's body
             plainText = AES.decrypt(data.Body, key)
             // write the plaintext into a file under download folder by using fs
-            fs.writeFileSync("./download/downloaded.txt", plainText.toString());
+            fs.writeFileSync(downloadPath, plainText.toString());
             console.log("success");
     });
   };
@@ -101,7 +105,7 @@ deleted in the s3 bucket.
 */
 const deleteFile = (fileName, parentFolder) => {
     // Variable
-    const filePath = parentFolder.concat(filename);
+    const filePath = parentFolder.concat(fileName);
 
     // acquire the information needed to connect to the s3 bucket and the file's name
     const params = {
@@ -109,16 +113,15 @@ const deleteFile = (fileName, parentFolder) => {
         Key: filePath
     };
     // run deleteObject to delete the file according to the file's path
-    s3.deleteObject(params, function(err, data) {
+    s3.deleteObject(params, function(s3Err, data) {
         // hadle error
-        if (err) 
-            console.log(err, err.stack);
+        if (s3Err) 
+            console.log(s3Err.message);
         else    
         console.log("File Successfully Deleted!");
     });
   }; 
 
-<<<<<<< HEAD
 
 // ====================================================================================== //
 /*
@@ -140,17 +143,5 @@ readline.question(`What do you want to do?`, resp => {
     }
     else {
         deleteFile(filename, parentFolder)
-=======
-readline.question(`What do you want to do?`, name => {
-    readline.close()
-    if (name == "upload"){
-        uploadFile("test.txt")
-    }
-    else if (name == "download"){
-        downloadFile("test.txt")
-    }
-    else {
-        deleteFile("test.txt")
->>>>>>> 46de26ce6ccbf1fd1f83a48e139ae7a146216a82
     }
 })
