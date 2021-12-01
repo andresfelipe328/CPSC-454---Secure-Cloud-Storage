@@ -118,6 +118,7 @@ const deleteFile = (fileName, parentFolder) => {
     });
   }; 
 
+<<<<<<< HEAD
 
 // ====================================================================================== //
 /*
@@ -139,5 +140,17 @@ readline.question(`What do you want to do?`, resp => {
     }
     else {
         deleteFile(filename, parentFolder)
+=======
+readline.question(`What do you want to do?`, name => {
+    readline.close()
+    if (name == "upload"){
+        uploadFile("test.txt")
+    }
+    else if (name == "download"){
+        downloadFile("test.txt")
+    }
+    else {
+        deleteFile("test.txt")
+>>>>>>> 46de26ce6ccbf1fd1f83a48e139ae7a146216a82
     }
 })
