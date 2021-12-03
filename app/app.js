@@ -12,11 +12,7 @@ var path = require("path");
 
 //variables 
 //Connect to the database 
-<<<<<<< HEAD
 var mongoDB = `mongodb+srv://SlackerAira:7zUCH5zQH2@accountinfo.t4wtk.mongodb.net/test`;
-=======
-var mongoDB = `mongodb+srv://SlackerAira:<password>@accountinfo.t4wtk.mongodb.net/test`;
->>>>>>> f81464046ff8a2d3d73e85f14cf7e33c79064f6b
 
 //connection events for mongodb 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.log(error)).
