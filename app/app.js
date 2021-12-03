@@ -12,7 +12,7 @@ var path = require("path");
 
 //variables 
 //Connect to the database 
-var mongoDB = `mongodb+srv://SlackerAira:Machikado1@cluster0.t4wtk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+var mongoDB = `mongodb+srv://SlackerAira:7zUCH5zQH2@accountinfo.t4wtk.mongodb.net/test`;
 
 //connection events for mongodb 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.log(error)).
