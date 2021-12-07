@@ -56,6 +56,12 @@ app.get("/", function(req,res){
 //show secret page (this is a test thing)
 //Can replace with the download/upload page
 //IsLoggedIn should show an error if you're not actually logged in
+
+app.get("/account", function(req, res) {
+	res.render("account");
+});
+
+
 app.get("/secret", isLoggedIn, function(req,res) {
 	res.render("home")
 });
@@ -103,11 +109,7 @@ app.post("/login", function(req,res) {
 // Logout Suffering 
 app.get("/logout", function(req, res) {
 	req.logout();
-	res.redirect("/home");
-});
-
-app.get("/account", isLoggedIn, function(req, res) {
-	res.render("account");
+	res.redirect("/");
 });
 
 function isLoggedIn(req, res, next) {
