@@ -48,5 +48,5 @@ exports.decrypt = decrypt = (ciphertext, key) => {
     //console.log(messagetext);
     messagetext = Buffer.concat([messagetext, decipher.final()]);
     //console.log(messagetext);
-    return messagetext;
+    return Buffer.from(messagetext.toString('binary'), 'hex');
 }

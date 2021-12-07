@@ -4,11 +4,15 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 // AES required to encrypt and decrypt user data
 const AES = require("./aes256.js")
+/*
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
-  })
+  });
+*/
 
+var exports = module.exports = {};
+var fileList = [];
 
 /*
 s3 represents the S3 bucket instance, it requires the access key ID and the secret key.
@@ -27,7 +31,7 @@ located inside the parent folder
 
     Output: N/A
 */
-const ProvideList = (parentFolder) => {
+exports.ProvideList = ProvideList = (parentFolder) => {
     const params = {
         Bucket: 'securecloudstorage',
         //Delimiter: '/',
@@ -37,10 +41,15 @@ const ProvideList = (parentFolder) => {
         // handle error
         if (s3Err)
             console.log(s3Err.message);
-        else
+        else {
             data.Contents.forEach(function(obj,index){
-                console.log(obj.Key)
+                fileList.push(obj.Key);
             });
+            //console.log("In Functs " + fileList)
+            exports.List = fileList;
+            //console.log(exports);
+            return fileList;
+        }
     });
 };
 
@@ -54,16 +63,17 @@ read and then it's encrypted and uploaded to the user's parent folder
 
     Output: N/A
 */  
-const uploadFile = (fileName, parentFolder, password) => {
+exports.uploadFile = uploadFile = (fileName, fileContent, parentFolder, password) => {
     // Variable
-    const filePath = parentFolder.concat(filename);
+    const filePath = parentFolder.concat(fileName);
 
     // open file and read contents by using fs
-    const fileContent = fs.readFileSync(fileName);
+    // const FileContent = fs.readFileSync(filePath);
     // provide the unique password key and a 16-byte string used as salt
     key = AES.getKeyFromPassword(password, "reallylongsalter");
     // run encryption algorithm using the encryption key and salt string
-    cipherContent = AES.encrypt(fileContent.toString('binary'), key);
+    cipherContent = AES.encrypt(fileContent.toString('hex'), key);
+
     // acquire the information needed to connect to the s3 bucket and the data to be sent
     const params = {
         Bucket: 'securecloudstorage',
@@ -76,7 +86,7 @@ const uploadFile = (fileName, parentFolder, password) => {
         if (s3Err) 
             console.log(s3Err.message);
         else
-            console.log("success");
+            console.log("File Successfully Uploaded!");
     });
 };
 
@@ -89,14 +99,18 @@ received from s3 bucket and stored in a new file under the download folder
             password :string
 
     Output: N/A
-*/  
-const downloadFile = (fileName, parentFolder, password) => {
+*/
+exports.downloadFile = downloadFile = (fileName, parentFolder, password) => {
     // Variables
     const filePath = parentFolder.concat(fileName);
     const newFile = "new_";
-    const folder = "download";
+    const folder = "download/";
     const downloadFile = newFile.concat(fileName);
     const downloadPath = folder.concat(downloadFile);
+    
+    if (!fs.existsSync(folder)){
+        fs.mkdirSync(folder);
+    }
 
     // provide the unique password key and a 16-byte string used as salt
     key = AES.getKeyFromPassword(password, "reallylongsalter");
@@ -112,10 +126,11 @@ const downloadFile = (fileName, parentFolder, password) => {
             console.log(s3Err.message);
         else
             // run encryption algorithm using the encryption key and only the data's body
-            plainText = AES.decrypt(data.Body, key)
+            plainText = AES.decrypt(data.Body, key, true);
             // write the plaintext into a file under download folder by using fs
-            fs.writeFileSync(downloadPath, plainText.toString());
-            console.log("success");
+            fs.writeFileSync(downloadPath, plainText);
+            //console.log(plainText.toString())
+            console.log("File Successfully Downloaded!");
     });
   };
  
@@ -128,7 +143,7 @@ deleted in the s3 bucket.
 
     Output: N/A
 */
-const deleteFile = (fileName, parentFolder) => {
+exports.deleteFile = deleteFile = (fileName, parentFolder) => {
     // Variable
     const filePath = parentFolder.concat(fileName);
 
@@ -154,6 +169,7 @@ For the pupose of this file, one sets the filename, parentFolder, and password. 
 run and user selects actions: upload, download, or delete. In reality, this file should 
 receive the filename, parentfolderer, and password
 */
+/*
 var filename = "test.txt";
 var parentFolder = "user1Folder/";
 var password = "password";
@@ -161,7 +177,7 @@ var password = "password";
 readline.question(`What do you want to do?`, resp => {
     readline.close()
     if (resp == "upload"){
-        uploadFile(filename, parentFolder, password);
+        uploadFile(filename, filename, parentFolder, password);
     }
     else if (resp == "download"){
         downloadFile(filename, parentFolder, password);
@@ -171,4 +187,4 @@ readline.question(`What do you want to do?`, resp => {
     }
     else
         ProvideList(parentFolder);
-})
+})*/

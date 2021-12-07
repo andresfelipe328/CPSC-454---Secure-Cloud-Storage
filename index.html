@@ -6,6 +6,7 @@
     <title>Secure Storage</title>
     <link rel="stylesheet" href="menu_bar_style.css">
     <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="uploadStyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
@@ -16,17 +17,19 @@
         <nav>
             <ul>
                 <li><button onclick=
-                  "document.getElementById('id01').style.display='block'">Sign In/Sign Up
+                  "document.getElementById('signupLogin').style.display='block'">Sign In/Sign Up
                 </button></li>
-                <li><a href="#">Upload</a></li>
+                <li><a href="#" class="uploadButton">Upload</a></li>
+                <li><a href="#" class="downloadButton">Download</a></li>
+                <li><a href="#" class="deleteButton">Delete</a></li>
                 <li><a href="#">Help</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
     </header>
     <body style="background-color: darkslategray">
-      <!-- The Modal (contains the Sign Up form) -->
-      <div id="id01" class="modal">
+      <!-- The Modal contains the Sign Up form -->
+      <div id="signupLogin" class="modal">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">X</span>
         <form class="modal-content" action="/action_page.php">
           <div class="container">
@@ -54,6 +57,42 @@
             </div>
           </div>
         </form>
+      
       </div>
+      <!-- The Modal contains the upload functionality -->
+      <div class='upmodal'>
+        <div class='modalContent'>
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            <label>Select File to Upload</label>
+            <input type="file" name="userFile">
+            <input type="submit" value="Upload">
+          </form>
+          <span class="closeUp">+</span>
+        </div>
+      </div>
+      <!-- The Modal contains the download functionality -->
+      <div class='downmodal'>
+        <div class='modalContentD'>
+          <form action="/download" method="post" enctype="multipart/form-data">
+            <label>Select File to Download</label>
+            <input type="text" name="userFile" autocomplete="off">
+            <input type="submit" value="Download">
+          </form>
+          <span class="closeDown">+</span>
+        </div>
+      </div>
+      <!-- The Modal contains the delete functionality -->
+      <div class='delmodal'>
+        <div class='modalContentDel'>
+          <form action="/delete" method="post" enctype="multipart/form-data">
+            <label>Select File to Delete</label>
+            <input type="text" name="userFile" autocomplete="off">
+            <input type="submit" value="Delete">
+          </form>
+          <span class="closeDel">+</span>
+        </div>
+      </div>
+      <script src="Functs.js"></script>
+      <script src="FuncActions.js"></script>
     </body>
 </html>
