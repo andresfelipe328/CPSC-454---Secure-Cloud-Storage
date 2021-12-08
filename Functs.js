@@ -25,32 +25,51 @@ const s3 = new AWS.S3({
 
 
 /*
-ProvideList receives the parent folder and uses it to list all files and subfolders 
-located inside the parent folder
+ProvideList receives the parent folder and uses it to call async fuction ProduceList
+to get all the files under the parentFolder
     Input:  parentFolder :string
-
     Output: N/A
 */
 exports.ProvideList = ProvideList = (parentFolder) => {
+    // calls the function that gets promise
+    const userData = ProduceList(parentFolder);
+    // returns promise to caller
+    return userData;
+}
+
+
+/*
+ProduceList receives the parent folder and uses it to list all files and subfolders 
+located inside the parent folder
+    Input:  parentFolder :string
+    Output: promise<pending>
+*/
+async function ProduceList (parentFolder) {
+    // variable
+    var parentFolder = 'user1Folder/';
+    // acquire the information needed to connect to the s3 bucket and the file's parent folder
     const params = {
         Bucket: 'securecloudstorage',
-        //Delimiter: '/',
         Prefix: parentFolder
     };
-    s3.listObjects(params, (s3Err, data) => {
-        // handle error
-        if (s3Err)
-            console.log(s3Err.message);
-        else {
+    // makes a new proimse of an asynchronous operation and its resulting value
+    var p = new Promise(function(resolve, reject){
+        // run listObjects to receive the files under parent folder by using AWS-SDK
+        s3.listObjects(params, function(err, data) {
+            // handles error, rejects promise
+            if (err) { 
+             return reject(err);
+            }
+            // for each file, get only the path
             data.Contents.forEach(function(obj,index){
                 fileList.push(obj.Key);
             });
-            //console.log("In Functs " + fileList)
-            exports.List = fileList;
-            //console.log(exports);
-            return fileList;
-        }
-    });
+            // resolve promise
+            resolve(fileList);
+           });
+          });
+    // returns promise
+    return p;
 };
 
 

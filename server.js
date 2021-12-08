@@ -1,4 +1,4 @@
-/* File Upload/Download/Delete by Andres*/
+/* File Upload/Download/Delete/Disp by Andres*/
 //***************************************************************************************************
 // express required for the back end web server
 const express = require('express');
@@ -29,6 +29,7 @@ var path = require("path");
 const server = express();
 var mongoDB = `mongodb+srv://SlackerAira:7zUCH5zQH2@accountinfo.t4wtk.mongodb.net/test`;
 const port = 3000;
+var parentFolder = "";
 
 // Connection event 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.log(error)).
@@ -89,12 +90,14 @@ server.get("/register", function(req,res) {
     res.render("register");
 });
 
+
 // Handling the user signup 
 // This works 
 // Can't figure out how to shove a parent folder in the s3 bucket for this purpose.  
 server.post("/register", function (req, res) {
     var username = req.body.username
-    var password = req.body.password
+    var password = req.body.password;
+    parentFolder = req.body.parentFolder;
     User.register(new User({ username: username }),
             password, function (err) {
         if (err) {
@@ -122,8 +125,6 @@ server.post("/login", function(req,res) {
     }
 })(req, res)
 });
-
-
 
 
 // Logout Suffering 
@@ -158,20 +159,32 @@ server.post('/upload', (req, res) => {
 // Handle post to download a file
 server.post('/download', (req, res) => {
     userFile = req.body.userFile;
-    functsS3.ProvideList('user1Folder/');
-    fileList = functsS3.List;
-    console.log("In server " + fileList);
-    //functsS3.downloadFile(userFile, 'user1Folder/', 'password');
+    functsS3.downloadFile(userFile, 'user1Folder/', 'password');
     res.send("File downloaded")
 });
 
 
-// Handle post to download a file
+// Handle post to delete a file
 server.post('/delete', (req, res) => {
     userFile = req.body.userFile;
     
     functsS3.deleteFile(userFile, 'user1Folder/');
     res.send("File deleted")
+});
+
+
+// Handle post to display list of files
+server.post('/disp', (req, res) => {
+    // Variable
+    var content;
+
+    // Calls function that returns promise (contains the files)
+    const fileList = functsS3.ProvideList('user1Folder/');
+    // This is when promise is returned and the contents is sent
+    fileList.then(function(result){
+        content = result;
+        res.send(content)
+    });
 });
 
 
