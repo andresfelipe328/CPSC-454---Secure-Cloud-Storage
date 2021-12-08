@@ -12,10 +12,17 @@
 
 Note: You'll need the KEYID and SECRET_KEY from me, so contact me
 
-# Description 
-
-* Code is split into separate categories and don't interfere with each other 
-  1. The Registration/Login portion 
-  2. The file uploading 
-
-* Couldn't get the code to work on aws with ejs properly so witholding it from the product.  
+* Dependencies used are in the package.json 
+* "aws-sdk": "^2.1044.0",
+* "body-parser": "^1.19.0",
+* "connect-flash": "^0.1.1",
+* "ejs": "^3.1.6",
+* "express": "^4.17.1",
+* "express-fileupload": "^1.2.1",
+* "express-session": "^1.17.2",
+* "expressjs": "^1.0.1",
+* "mongoose": "^6.1.0",
+* "multer": "^1.4.3",
+* "passport": "^0.5.0",
+* "passport-local": "^1.0.0",
+* "passport-local-mongoose": "^6.1.0"
