@@ -4,7 +4,7 @@
   "description": "Implementation of AES-256 for enc/decryption of files in a file transfer system on the cloud",
   "main": "upload.js",
   "dependencies": {
-    "aws-sdk": "^2.1039.0",
+    "aws-sdk": "^2.1044.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "multer": "^1.4.3"

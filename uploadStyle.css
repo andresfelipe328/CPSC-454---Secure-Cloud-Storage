@@ -1,4 +1,4 @@
-.delmodal, .downmodal, .upmodal {
+.dispmodal, .delmodal, .downmodal, .upmodal {
     position: fixed;
     width: 100%;
     height: 100vh;
@@ -18,7 +18,7 @@
     opacity: 1;
 }
 
-.modalContentDel, .modalContentD, .modalContent {
+.modalContentDisp, .modalContentDel, .modalContentD, .modalContent {
     width: 500px;
     height: 300px;
     display: flex;
@@ -44,7 +44,7 @@ input {
     margin: 15px auto;
 }
 
-.closeDel, .closeDown, .closeUp {
+.closeDisp, .closeDel, .closeDown, .closeUp {
     position: absolute;
     top: 10px;
     right: 10px;
