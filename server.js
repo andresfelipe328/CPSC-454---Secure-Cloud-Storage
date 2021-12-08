@@ -44,10 +44,7 @@ server.post('/upload', (req, res) => {
 // Handle post to download a file
 server.post('/download', (req, res) => {
     userFile = req.body.userFile;
-    functsS3.ProvideList('user1Folder/');
-    fileList = functsS3.List;
-    console.log("In server " + fileList);
-    //functsS3.downloadFile(userFile, 'user1Folder/', 'password');
+    functsS3.downloadFile(userFile, 'user1Folder/', 'password');
     res.send("File downloaded")
 });
 
@@ -58,6 +55,21 @@ server.post('/delete', (req, res) => {
     
     functsS3.deleteFile(userFile, 'user1Folder/');
     res.send("File deleted")
+});
+
+
+// Handle post to download a file
+server.post('/disp', (req, res) => {
+    // Variable
+    var content;
+
+    // Calls function that returns promise (contains the files)
+    const fileList = functsS3.ProvideList('user1Folder/');
+    // This is when promise is returned and the contents is sent
+    fileList.then(function(result){
+        content = result;
+        res.send(content)
+    });
 });
 
 

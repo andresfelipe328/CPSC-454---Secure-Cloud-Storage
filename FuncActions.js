@@ -41,3 +41,18 @@ modalCloseDel.addEventListener('click',
 function() {
     modalDel.classList.remove('active');
 });
+
+
+var modalButtonDisp = document.querySelector('.fileButton');
+var modalDisp = document.querySelector('.dispmodal');
+var modalCloseDisp = document.querySelector('.closeDisp');
+
+modalButtonDisp.addEventListener('click', 
+function() {
+    modalDisp.classList.add('active');
+});
+
+modalCloseDisp.addEventListener('click', 
+function() {
+    modalDisp.classList.remove('active');
+});

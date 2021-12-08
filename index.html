@@ -16,13 +16,11 @@
         <h1><span>Secure</span> Storage</h1>
         <nav>
             <ul>
-                <li><button onclick=
-                  "document.getElementById('signupLogin').style.display='block'">Sign In/Sign Up
-                </button></li>
+                <li><a href="#">Signup/Login</a></li>
                 <li><a href="#" class="uploadButton">Upload</a></li>
                 <li><a href="#" class="downloadButton">Download</a></li>
                 <li><a href="#" class="deleteButton">Delete</a></li>
-                <li><a href="#">Help</a></li>
+                <li><a href="#" class="fileButton">Files</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
@@ -90,6 +88,16 @@
             <input type="submit" value="Delete">
           </form>
           <span class="closeDel">+</span>
+        </div>
+      </div>
+      <!-- The Modal contains the display file functionality -->
+      <div class='dispmodal'>
+        <div class='modalContentDisp'>
+          <form action="/disp" method="post" enctype="multipart/form-data">
+            <label>Enter to display list</label>
+            <input type="submit" value="Display">
+          </form>
+          <span class="closeDisp">+</span>
         </div>
       </div>
       <script src="Functs.js"></script>
