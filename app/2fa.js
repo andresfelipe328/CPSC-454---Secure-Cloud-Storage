@@ -3,6 +3,9 @@ const speakeasy = require('speakeasy')
 const qrcode = require('qrcode');
 const user = require('./models/user');
 
+// needed for testing in terminal
+const readline = require('readline').createInterface({input: process.stdin, output: process.stdout});
+
 // generates a secret key
 function enable2FA(username) {
     var key = speakeasy.generateSecret({
@@ -22,18 +25,38 @@ function verify2FA(code, key) {
     return passed;
 }
 
-//TODO: integrate this with the actual signup/login
 
-// testing this out, delete later
 var test = "test"
 testKey = enable2FA(test)
-console.log(testKey)
+
+var promptLoop = function() {
+    readline.question('\nEnter the correct token obtained from the authenticator app or type "exit" to quit:', input => {
+        if (input == 'exit') return readline.close();
+
+        // checks input against key
+        var testVerification = speakeasy.totp.verify({
+            secret: testKey.base32,
+            encoding: 'base32',
+            token: input
+        })
+            
+        if (testVerification == true) console.log("\nVerification passed\n")
+        else console.log("\nVerification failed\n");
+
+        promptLoop();
+    });
+};
+
 qrcode.toDataURL(testKey.otpauth_url, function(err, data){
-    console.log(data)
+
+    //gives link to QR code
+    console.log('\nGenerated QR code:\n', data, '\n')
+
+    // brings up the prompt for the token
+    process.nextTick(() => {
+        promptLoop();
+    })
 })
-var testVerification = speakeasy.totp.verify({
-    secret: 'HIXGGYLDKFWSM7KOMVBESMZMHNDWOT3HFZYGM4SAOVYDMTJOGBEA',
-    encoding: 'base32',
-    token: '615415'
-})
-console.log(testVerification);
+
+// exporting these functions
+module.exports = { enable2FA, verify2FA };

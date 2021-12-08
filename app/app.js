@@ -9,6 +9,9 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var User = require("./models/user");
 var path = require("path");
 
+// importing the 2FA file
+const tfa = require("./2fa");
+
 
 //variables 
 //Connect to the database 
