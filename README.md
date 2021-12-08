@@ -11,3 +11,11 @@
 * Results will be in the AWS S3 bucket.
 
 Note: You'll need the KEYID and SECRET_KEY from me, so contact me
+
+# Description 
+
+* Code is split into separate categories and don't interfere with each other 
+  1. The Registration/Login portion 
+  2. The file uploading 
+
+* Couldn't get the code to work on aws with ejs properly so witholding it from the product.  
