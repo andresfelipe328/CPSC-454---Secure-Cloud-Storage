@@ -30,6 +30,8 @@ const server = express();
 var mongoDB = `mongodb+srv://SlackerAira:7zUCH5zQH2@accountinfo.t4wtk.mongodb.net/test`;
 const port = 3000;
 var parentFolder = "";
+var loggedIn = 0;
+var constVals = [];
 
 // Connection event 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.log(error)).
@@ -91,13 +93,18 @@ server.get("/register", function(req,res) {
 });
 
 
-// Handling the user signup 
-// This works 
-// Can't figure out how to shove a parent folder in the s3 bucket for this purpose.  
+/* Handling the user signup 
+ This works 
+ Can't figure out how to shove a parent folder in the s3 bucket for this purpose.  
+*/ 
 server.post("/register", function (req, res) {
+    // Variables
     var username = req.body.username
     var password = req.body.password;
-    parentFolder = req.body.parentFolder;
+
+    // Create parent folder for user
+    functsS3.ProduceFolder(username + 'Folder/');
+    // Register user
     User.register(new User({ username: username }),
             password, function (err) {
         if (err) {
@@ -109,6 +116,27 @@ server.post("/register", function (req, res) {
     });
 });
 
+
+/*
+setParentFoder is an async function that makes sure to record the parent folder name of 
+user that logged in. All services will based on this folder
+    Input: parentName :string
+
+    Output: p :promise
+*/
+async function setParentFolder (parentName) {
+    // makes a new proimse of an asynchronous operation and its resulting value
+    var p = new Promise(function(resolve, reject){
+        parentFolder = parentName + 'Folder/'
+        loggedIn = 1;
+        constVals.push(parentFolder, loggedIn);
+        resolve(constVals);
+          });
+    // returns promise
+    return p;
+};
+
+
 // Show Login Form 
 server.get("/login", function(req,res) {
     res.render("login");
@@ -119,9 +147,14 @@ server.get("/login", function(req,res) {
 server.post("/login", function(req,res) {
     passport.authenticate('local', (err,user,info) => { 
     if (!user) {
-        return res.render("login", {messages: "Failed to login in"});
+        return res.render("login", {messages: "Failed to login in or not registered"});
     } else {
         res.sendFile(__dirname + '/index.html', {messages: "Successfully Logged In"});
+        // Handles the assignation of parent Folder
+        parentFolder = setParentFolder(req.body.username);
+        parentFolder.then(function(result){
+        parentFolder = result[0];
+    });
     }
 })(req, res)
 });
@@ -133,15 +166,20 @@ server.get("/logout", function(req, res) {
     res.redirect("/");
 });
 
+// Makes sure user is logged in
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
+    // checks if the user is logged in
+    if (loggedIn == 1){
+        return next();
+    }
+    // return to login page
+    else
     res.redirect("/login");
 }
 
 
-
 // Handles post to upload a file
-server.post('/upload', (req, res) => {
+server.post('/upload',isLoggedIn, (req, res) => {
     if (req.files) {
         // gets the file and its information
         var file = req.files.userFile;
@@ -150,36 +188,35 @@ server.post('/upload', (req, res) => {
         // retrieves the file's contents
         var fileContent = file.data;
         // access the uploadFile method to upload to S3
-        functsS3.uploadFile(fileName,fileContent,'user1Folder/', "password");
+        functsS3.uploadFile(fileName,fileContent, parentFolder, "password");
         res.send("File uploaded")
     }
 });
 
 
 // Handle post to download a file
-server.post('/download', (req, res) => {
+server.post('/download', isLoggedIn, (req, res) => {
     userFile = req.body.userFile;
-    functsS3.downloadFile(userFile, 'user1Folder/', 'password');
+    functsS3.downloadFile(userFile, parentFolder, 'password');
     res.send("File downloaded")
 });
 
 
 // Handle post to delete a file
-server.post('/delete', (req, res) => {
+server.post('/delete', isLoggedIn, (req, res) => {
     userFile = req.body.userFile;
-    
-    functsS3.deleteFile(userFile, 'user1Folder/');
+    functsS3.deleteFile(userFile, parentFolder);
     res.send("File deleted")
 });
 
 
 // Handle post to display list of files
-server.post('/disp', (req, res) => {
+server.post('/disp', isLoggedIn, (req, res) => {
     // Variable
     var content;
-
+    console.log(parentFolder)
     // Calls function that returns promise (contains the files)
-    const fileList = functsS3.ProvideList('user1Folder/');
+    const fileList = functsS3.ProvideList(parentFolder);
     // This is when promise is returned and the contents is sent
     fileList.then(function(result){
         content = result;

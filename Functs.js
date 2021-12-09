@@ -39,14 +39,34 @@ exports.ProvideList = ProvideList = (parentFolder) => {
 
 
 /*
+ProduceFolder receives a string and it creates a folder in the s3 bucket
+    Input:  folderName :string
+    Output: N/A
+*/
+exports.ProduceFolder = ProduceFolder = (folderName) => {
+    const params = {
+        Bucket: 'securecloudstorage',
+        Key: folderName,
+        Body: ""
+    };
+    // run upload to transfer the data to the bucket by using AWS-SDK
+    s3.upload(params, function(s3Err, data) {
+        // handle error
+        if (s3Err) 
+            console.log(s3Err.message);
+        else
+            console.log("Folder Successfully Created!");
+    });
+}
+
+
+/*
 ProduceList receives the parent folder and uses it to list all files and subfolders 
 located inside the parent folder
     Input:  parentFolder :string
     Output: promise<pending>
 */
 async function ProduceList (parentFolder) {
-    // variable
-    var parentFolder = 'user1Folder/';
     // acquire the information needed to connect to the s3 bucket and the file's parent folder
     const params = {
         Bucket: 'securecloudstorage',
@@ -127,6 +147,7 @@ exports.downloadFile = downloadFile = (fileName, parentFolder, password) => {
     const downloadFile = newFile.concat(fileName);
     const downloadPath = folder.concat(downloadFile);
     
+    // if the folder doesn't exits, create it
     if (!fs.existsSync(folder)){
         fs.mkdirSync(folder);
     }
@@ -184,9 +205,7 @@ exports.deleteFile = deleteFile = (fileName, parentFolder) => {
 
 // ====================================================================================== //
 /*
-For the pupose of this file, one sets the filename, parentFolder, and password. Then, it's
-run and user selects actions: upload, download, or delete. In reality, this file should 
-receive the filename, parentfolderer, and password
+For debugging purposes
 */
 /*
 var filename = "test.txt";
