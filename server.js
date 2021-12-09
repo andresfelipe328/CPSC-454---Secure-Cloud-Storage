@@ -160,9 +160,27 @@ server.post("/login", function(req,res) {
 });
 
 
+/*
+notLoggedIn reseets vaue loggedIn to make sure user logins first to use services
+*/
+async function notLoggedIn () {
+    // makes a new proimse of an asynchronous operation and its resulting value
+    var p = new Promise(function(resolve, reject){
+        loggedIn = 0;
+        resolve(loggedIn);
+          });
+    // returns promise
+    return p;
+};
+
+
 // Logout Suffering 
 server.get("/logout", function(req, res) {
     req.logout();
+    notLoggedin = notLoggedIn();
+        notLoggedin.then(function(result){
+        loggedIn = 0;
+    });
     res.redirect("/");
 });
 
