@@ -8,7 +8,7 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 * Ares Hamilton
 * Vincent Nguyen
 
-##Dependencies:
+## Dependencies:
 	* "aws-sdk": "^2.1044.0",
 	* "body-parser": "^1.19.0",
 	* "connect-flash": "^0.1.1",
@@ -23,13 +23,13 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 	* "passport-local": "^1.0.0",
 	* "passport-local-mongoose": "^6.1.0"
 
-##Execution (assuming the tester is a new user):
+## Execution (assuming the tester is a new user):
 	1. go to the directory that has all the files through terminal 
 	2. install aws-sdk -> npm install aws-sdk
 	3. install nodemon -> npm install nodemon
-	4. export the needed credentials for connecting with AWS by inputing in terminal (this is secret)
-		* export AWS_ACCESS_KEY_ID=AKIARPY2ZGX6K3UWYXVY
-		* export AWS_SECRET_ACCESS_KEY=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
+	4. export the needed credentials for connecting with AWS by inputing in terminal (contact me for credentials)
+		* export AWS_ACCESS_KEY_ID= []
+		* export AWS_SECRET_ACCESS_KEY= []
 	5. start server -> npm start
 	6. Open browser and input localhost:3000
 	7. Click on "Register" and input a username and password
@@ -43,7 +43,7 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 			and click on the pop up, click "x" at the top right corner.
 	Extra: "Account" will let you logout, you'll have to login again to use functionalities
 
-##Proof of Successful Actions:
+## Proof of Successful Actions:
 	* MongoDB:
 		1. Download the program MongoDB Compass
 		2. using this string for connection string: 'mongodb+srv://SlackerAira:7zUCH5zQH2@accountinfo.t4wtk.mongodb.net/test'
@@ -54,10 +54,10 @@ Implementation of AES-256 for enc/decryption of files in a file transfer system 
 		1. Go to AWS
 		2. click "sign in to the console" in the top right corner
 		3. Select IAM user
-		4. Enter this credentials (password is secret):
-			1. 12 Digit ID: 102598522364
-			2. IAM user name: cloudstorageUser
-			3. password: cpsc454_password
+		4. Enter this credentials (contact me for credentials):
+			1. 12 Digit ID: []
+			2. IAM user name: []
+			3. password: []
 		5. In the search bar input S3
 		6. click on securecloudstorage
 		7. you'll see the folders for users and inside you'll see the files.
